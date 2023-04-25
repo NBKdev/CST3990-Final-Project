@@ -76,20 +76,11 @@
     </section>
   </div>
 
-  <!-- add high scorer name -->
-  <Modal v-if="showAddHighScoreModal" @ok="addToLeaderboard">
-    <h1>Enter your name</h1>
-    <input
-      v-model="playerName"
-      class="border rounded-md h-10 px-4 text-gray-600 font-bold"
-    />
-  </Modal>
-
   <!-- leaderboard scores -->
   <Modal v-if="showLeaderboardModal" @ok="showLeaderboardModal = false">
     <section class="w-96">
       <h1 class="text-gray-700 font-bold text-2xl mb-4">Leaderboard</h1>
-      <table class="table-fixed text-xs border border-gray-400 shadow-md">
+      <table class="w-full table-fixed text-xs border border-gray-400 shadow-md">
         <thead>
           <tr>
             <th class="w-1/6 py-2">#</th>
@@ -150,19 +141,24 @@
     </section>
   </Modal>
 
-  <!-- game over modal -->
-  <Modal v-if="showGameOverModal" @ok="playAgain">
+  <!-- game start modal -->
+  <Modal v-if="showGameStartModal" @ok="playGame">
     <section class="w-96">
       <h1 class="text-gray-700 font-bold text-2xl">
-        Game Over! Wanna play again?
+        Start game!
       </h1>
+
+      <p>Enter your name</p>
+      <input
+        v-model="playerName"
+        class="border rounded-md h-10 px-4 text-gray-600 font-bold"
+      />
     </section>
   </Modal>
 </template>
 
 <script setup>
 import {
-  ChatBubbleBottomCenterIcon,
   ChartBarIcon,
   Cog6ToothIcon,
   CheckIcon,
@@ -199,7 +195,7 @@ const availableAlphabets = ref([]);
 const guess = ref([]);
 const currentGuessIndex = ref(0);
 const showConfetti = ref(false);
-const showGameOverModal = ref(false);
+const showGameStartModal = ref(true);
 
 // functionality related to high-scores and leaderboard
 const leaderboard = ref(JSON.parse(localStorage.getItem("leaderboard")) || []);
@@ -313,38 +309,33 @@ const checkAnswer = () => {
       // check the minimum score from the leaderboard
       const minScore = leaderboard.value.reduce((min, player) => {
         return Math.min(min, player.score);
-      }, Infinity);
+      }, -Infinity);
 
       // if no life is left, ask user to add their name for leadersboard if their score is eligible for leaderboard
-      if (life.value === 0 && score.value > minScore && score.value > 0) {
-        showAddHighScoreModal.value = true;
-      }
-
-      // if user score can't be added to leaderboard, directly show play again message
-      if (life.value === 0 && score.value <= minScore) {
-        showGameOverModal.value = true;
+      if (life.value === 0 && score.value > minScore && score.value) {
+        addToLeaderboard()
       }
     }, 2000);
   }
 };
 
 const addToLeaderboard = () => {
-  if (playerName.value) {
-    const player = { name: playerName.value, score: score.value };
-    leaderboard.value.push(player);
+  const player = { name: playerName.value, score: score.value };
+  console.log("adding:", leaderboard.value)
+  leaderboard.value.push(player);
+  console.log("after:", leaderboard.value)
 
-    // Sort the array in descending order of scores
-    leaderboard.value.sort((a, b) => b.score - a.score);
+  // Sort the array in descending order of scores
+  leaderboard.value.sort((a, b) => b.score - a.score);
 
-    // only keep specific number of players in leaderboard
-    leaderboard.value.splice(MAX_LEADERBOARD_PLAYERS)
+  // only keep specific number of players in leaderboard
+  leaderboard.value.splice(MAX_LEADERBOARD_PLAYERS)
 
-    // Store the sorted leaderboard back into local storage
-    localStorage.setItem("leaderboard", JSON.stringify(leaderboard.value));
+  // Store the sorted leaderboard back into local storage
+  localStorage.setItem("leaderboard", JSON.stringify(leaderboard.value));
 
-    showAddHighScoreModal.value = false;
-    showGameOverModal.value = true;
-  }
+  showAddHighScoreModal.value = false;
+  showGameStartModal.value = true;
 };
 
 const saveSettings = () => {
@@ -352,10 +343,12 @@ const saveSettings = () => {
   showSettingsModal.value = false;
 };
 
-const playAgain = () => {
-  showGameOverModal.value = false;
-  score.value = 0;
-  init();
+const playGame = () => {
+  if (playerName.value) {
+    showGameStartModal.value = false;
+    score.value = 0;
+    init();
+  }
 };
 
 const init = async () => {
@@ -394,7 +387,7 @@ const init = async () => {
   availableAlphabets.value = getRandomAlphabets();
 };
 
-onMounted(async () => {
-  init();
-});
+// onMounted(async () => {
+//   init();
+// });
 </script>
