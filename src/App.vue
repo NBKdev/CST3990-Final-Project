@@ -186,6 +186,7 @@ const levels = ref({
   ENGLISH: "ENGLISH",
   GEOGRAPHY: "GEOGRAPHY",
   MATHEMATICS: "MATHEMATICS",
+  PE: "PE",
 
 });
 const currentLevel = ref(levels.value.EASY);

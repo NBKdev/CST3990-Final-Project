@@ -230,3 +230,23 @@ export const GEOGRAPHY  = [
     'Even',
     'Odd',
   ]
+  
+  export const PE  = [ 
+    'Rugby',
+    'Football',
+    'Running',
+    'Tennis',
+    'Athletics',
+    'Basketball',
+    'Golf',
+    'Gymnastics',
+    'Softball',
+    'Archery',
+    'Olympics',
+    'Badminton',
+    'Netball',
+    'Hockey',
+    'Rounders',
+    'Cricket',
+
+  ]

@@ -1,4 +1,4 @@
-import { EASY, MEDIUM, HARD, ENGLISH, GEOGRAPHY, MATHEMATICS, } from "../data/words";
+import { EASY, MEDIUM, HARD, ENGLISH, GEOGRAPHY, MATHEMATICS, PE, } from "../data/words";
 
 const randomIndex = (end) => {
   return Math.floor(Math.random() * (end))
@@ -29,6 +29,10 @@ export const generate = (level) => {
   if (level === 'MATHEMATICS') {
     let index = randomIndex(MATHEMATICS.length)
     word = MATHEMATICS[index]
+  }
+  if (level === 'PE') {
+    let index = randomIndex(PE.length)
+    word = PE[index]
   }
 
 
