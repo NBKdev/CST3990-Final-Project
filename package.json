@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.17",
+    "axios": "^1.4.0",
     "confetti-js": "^0.0.18",
     "unsplash-js": "^7.0.15",
     "vue": "^3.2.47"

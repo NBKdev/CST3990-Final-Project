@@ -55,7 +55,7 @@
     <section class="fixed bottom-4 right-10">
       <div class="flex flex-col gap-6">
         <ChartBarIcon
-          @click="showLeaderboardModal = true"
+          @click="getLeaderbaord"
           class="w-14 h-14 p-2 text-gray-400 cursor-pointer bg-gray-700 rounded-full"
         />
         <Cog6ToothIcon
@@ -91,7 +91,7 @@
         <tbody>
           <tr v-for="(player, index) in leaderboard" :key="player.name">
             <td class="border border-gray-400 px-4 py-2">{{ index + 1 }}</td>
-            <td class="border border-gray-400 px-4 py-2">{{ player.name }}</td>
+            <td class="border border-gray-400 px-4 py-2">{{ player.player }}</td>
             <td class="border border-gray-400 px-4 py-2">{{ player.score }}</td>
           </tr>
         </tbody>
@@ -173,8 +173,10 @@ import ConfettiGenerator from "confetti-js";
 import correctSound from "./assets/correct-answer.mp3";
 import wrongSound from "./assets/wrong-answer.mp3";
 import clickSound from "./assets/click.mp3";
+import axios from "axios";
 
 const imageURLs = ref([])
+const BACKEND_API_URL = "http://localhost:3000/"
 
 // game settings and controls
 const levels = ref({
@@ -184,7 +186,6 @@ const levels = ref({
 });
 const currentLevel = ref(levels.value.EASY);
 const MAX_LIFE = 5;
-const MAX_LEADERBOARD_PLAYERS = 10;
 const REWARD_POINTS = 1000;
 const RANDOM_ALPHABETS_AMOUNT = 18;
 const life = ref(MAX_LIFE);
@@ -198,9 +199,8 @@ const showConfetti = ref(false);
 const showGameStartModal = ref(true);
 
 // functionality related to high-scores and leaderboard
-const leaderboard = ref(JSON.parse(localStorage.getItem("leaderboard")) || []);
+const leaderboard = ref([]);
 const playerName = ref("");
-const showAddHighScoreModal = ref(false);
 const showLeaderboardModal = ref(false);
 
 // functionality related to game settings
@@ -306,37 +306,30 @@ const checkAnswer = () => {
     setTimeout(() => {
       showConfetti.value = false;
 
-      // check the minimum score from the leaderboard
-      const minScore = leaderboard.value.reduce((min, player) => {
-        return Math.min(min, player.score);
-      }, -Infinity);
-
       // if no life is left, ask user to add their name for leadersboard if their score is eligible for leaderboard
-      if (life.value === 0 && score.value > minScore && score.value) {
+      if (life.value === 0 && score.value) {
+        showGameStartModal.value = true;
         addToLeaderboard()
       }
     }, 2000);
   }
 };
 
-const addToLeaderboard = () => {
-  const player = { name: playerName.value, score: score.value };
-  console.log("adding:", leaderboard.value)
-  leaderboard.value.push(player);
-  console.log("after:", leaderboard.value)
+const addToLeaderboard = async () => {
+  const payload = { player: playerName.value, score: score.value };
+  let url = BACKEND_API_URL + 'leaderboard'
 
-  // Sort the array in descending order of scores
-  leaderboard.value.sort((a, b) => b.score - a.score);
-
-  // only keep specific number of players in leaderboard
-  leaderboard.value.splice(MAX_LEADERBOARD_PLAYERS)
-
-  // Store the sorted leaderboard back into local storage
-  localStorage.setItem("leaderboard", JSON.stringify(leaderboard.value));
-
-  showAddHighScoreModal.value = false;
-  showGameStartModal.value = true;
+  await axios.post(url, payload)
+  leaderboard.value.push(payload);
 };
+
+const getLeaderbaord = async () => {
+  let url = BACKEND_API_URL + 'leaderboard'
+  let response = await axios.get(url)
+
+  leaderboard.value = response.data
+  showLeaderboardModal.value = true
+}
 
 const saveSettings = () => {
   init()
@@ -387,7 +380,4 @@ const init = async () => {
   availableAlphabets.value = getRandomAlphabets();
 };
 
-// onMounted(async () => {
-//   init();
-// });
 </script>
