@@ -199,8 +199,7 @@ export const GEOGRAPHY  = [
 
   ]
 
-  export const MATHS  = [ 
-    'Gemoetry',
+  export const MATHEMATICS  = [ 
     'Algebra',
     'Addition',
     'Fraction',
@@ -230,7 +229,4 @@ export const GEOGRAPHY  = [
     'Remainder',
     'Even',
     'Odd',
-
-
-
   ]
