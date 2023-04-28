@@ -45,7 +45,7 @@ export const EASY = [
   'Family',
   'Xbox',
   'Playstation',
-  'Police',
+  'Food',
 ]
 
 export const MEDIUM = [
