@@ -198,3 +198,39 @@ export const GEOGRAPHY  = [
 
 
   ]
+
+  export const MATHS  = [ 
+    'Gemoetry',
+    'Algebra',
+    'Addition',
+    'Fraction',
+    'Number',
+    'Division',
+    'Statistics',
+    'Angle',
+    'Calculus',
+    'Mathematical',
+    'Circle',
+    'Equation',
+    'Divisor',
+    'Graph',
+    'Algorithm',
+    'Average',
+    'Mean',
+    'Mode',
+    'Median',
+    'Square',
+    'Cube',
+    'Cylinder',
+    'Times',
+    'Plus',
+    'Divide',
+    'Equal',
+    'Percent',
+    'Remainder',
+    'Even',
+    'Odd',
+
+
+
+  ]
