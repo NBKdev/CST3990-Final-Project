@@ -183,6 +183,9 @@ const levels = ref({
   EASY: "EASY",
   MEDIUM: "MEDIUM",
   HARD: "HARD",
+  ENGLISH: "ENGLISH",
+  GEOGRAPHY: "GEOGRAPHY",
+
 });
 const currentLevel = ref(levels.value.EASY);
 const MAX_LIFE = 5;

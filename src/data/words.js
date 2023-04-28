@@ -153,3 +153,48 @@ export const HARD = [
   'Unicorn',
   'Vulture'
 ]
+export const ENGLISH  = [ 
+'Romeo',
+'Juliet',
+'Because',
+'Suddenly',
+'Alliteration',
+'Poetry',
+'Irony',
+'Autobiography',
+'Tragedy',
+'Theme',
+'Metaphor',
+'Simile',
+'Imagery',
+'Rhyme',
+'Repetition',
+'Enjambment',
+'Think',
+'Feel',
+'Hear',
+'Smell',
+'Touch',
+]
+export const GEOGRAPHY  = [ 
+  'Map',
+  'Town',
+  'Earth',
+  'China',
+  'United Kingdom',
+  'Continet',
+  'Mountain',
+  'Ocean',
+  'Equator',
+  'Glacier',
+  'River',
+  'Atlas',
+  'Desert',
+  'Country',
+  'Land',
+  'Gulf',
+  'Cliff',
+  'Sea',
+
+
+  ]

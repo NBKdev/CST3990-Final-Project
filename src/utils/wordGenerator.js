@@ -1,4 +1,4 @@
-import { EASY, MEDIUM, HARD } from "../data/words";
+import { EASY, MEDIUM, HARD, ENGLISH, GEOGRAPHY } from "../data/words";
 
 const randomIndex = (end) => {
   return Math.floor(Math.random() * (end))
@@ -18,6 +18,15 @@ export const generate = (level) => {
     let index = randomIndex(HARD.length)
     word = HARD[index]
   }
+  if (level === 'ENGLISH') {
+    let index = randomIndex(ENGLISH.length)
+    word = ENGLISH[index]
+  }
+  if (level === 'GEOGRAPHY') {
+    let index = randomIndex(GEOGRAPHY.length)
+    word = GEOGRAPHY[index]
+  }
+
 
   return word.toLocaleLowerCase()
 }
